@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>SwiftInvoice Pro - Desktop Dashboard</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+    <!-- Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-variant": "#e2e3df",
+                        "primary-fixed-dim": "#bbc6e2",
+                        "on-tertiary-fixed-variant": "#334861",
+                        "on-surface-variant": "#45474d",
+                        "tertiary-fixed": "#d1e4ff",
+                        "secondary": "#47607e",
+                        "primary-container": "#1b263b",
+                        "on-primary-container": "#828da7",
+                        "secondary-fixed-dim": "#afc9ea",
+                        "on-secondary-fixed": "#001d36",
+                        "surface": "#f9faf5",
+                        "error": "#ba1a1a",
+                        "surface-container-low": "#f3f4f0",
+                        "on-primary-fixed": "#101b30",
+                        "on-surface": "#1a1c1a",
+                        "on-secondary-container": "#48617e",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#d7e2ff",
+                        "tertiary-fixed-dim": "#b2c8e7",
+                        "on-error-container": "#93000a",
+                        "surface-tint": "#545e76",
+                        "tertiary": "#001225",
+                        "inverse-primary": "#bbc6e2",
+                        "surface-container-highest": "#e2e3df",
+                        "on-tertiary-container": "#798fab",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#edeeea",
+                        "inverse-on-surface": "#f0f1ed",
+                        "on-primary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "primary": "#051125",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#1a1c1a",
+                        "outline": "#75777d",
+                        "tertiary-container": "#0f273f",
+                        "outline-variant": "#c5c6cd",
+                        "on-primary-fixed-variant": "#3c475d",
+                        "secondary-container": "#c2dcff",
+                        "secondary-fixed": "#d1e4ff",
+                        "surface-bright": "#f9faf5",
+                        "on-tertiary-fixed": "#031d34",
+                        "surface-container-high": "#e8e8e4",
+                        "background": "#f9faf5",
+                        "on-secondary-fixed-variant": "#2f4865",
+                        "inverse-surface": "#2f312e",
+                        "surface-dim": "#d9dad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "stack-lg": "24px",
+                        "table-cell-padding": "12px 16px",
+                        "stack-sm": "8px",
+                        "container-padding": "32px",
+                        "stack-xs": "4px",
+                        "stack-md": "16px",
+                        "section-gap": "40px"
+                    },
+                    "fontFamily": {
+                        "display-invoice": ["Inter"],
+                        "headline-section": ["Inter"],
+                        "body-tabular": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "body-main": ["Inter"],
+                        "label-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-invoice": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-section": ["18px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "body-tabular": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                        "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "body-main": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        .invoice-grid-border { border: 1px solid #c5c6cd; }
+        .form-input { 
+            @apply block w-full border border-outline-variant rounded-lg bg-surface px-3 py-2 text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all;
+        }
+    </style>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+
+        .dropdown-menu-custom {
+            position: absolute;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.375rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            max-height: 200px;
+            overflow-y: auto;
+            width: 100%;
+            z-index: 50;
+        }
+
+        .dropdown-item-custom {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.875rem;
+            cursor: pointer;
+            color: #1e293b;
+        }
+
+        .dropdown-item-custom:hover {
+            background-color: #f1f5f9;
+        }
+    </style>
+</head>
+
+<body class="bg-background font-body-main text-on-background min-h-screen flex overflow-hidden">
+
+    <!-- Top Loading Indicator -->
+    <div id="top-progress-bar" class="fixed top-0 left-0 right-0 h-1 bg-secondary w-0 transition-all duration-300 z-[9999] hidden"></div>
+
+    <!-- ==================== LOGIN LAYOUT ==================== -->
+    <div id="login-layout" class="min-h-screen flex items-center justify-center bg-slate-950 p-6 hidden">
+        <div class="w-full max-w-md bg-slate-900 border border-slate-800 p-8 rounded-2xl shadow-2xl space-y-6">
+            <div class="text-center space-y-2">
+                <div class="inline-flex p-3 bg-sky-950 rounded-xl text-sky-400">
+                    <span class="material-symbols-outlined text-3xl">account_balance_wallet</span>
+                </div>
+                <h2 class="text-2xl font-bold text-white tracking-tight">SwiftInvoice Pro</h2>
+                <p class="text-slate-400 text-sm">Sign in to access GK Fintrics web dashboard</p>
+            </div>
+
+            <form id="login-form" class="space-y-4">
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-slate-300 tracking-wider">Email address</label>
+                    <input type="email" id="email" required class="w-full px-4 py-2.5 bg-slate-950 border border-slate-850 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-sky-500 text-sm" placeholder="you@domain.com" />
+                </div>
+                <div class="space-y-1">
+                    <div class="flex justify-between items-center">
+                        <label class="text-xs font-semibold text-slate-300 tracking-wider">Password</label>
+                    </div>
+                    <div class="relative">
+                        <input type="password" id="password" required class="w-full px-4 py-2.5 bg-slate-950 border border-slate-850 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-sky-500 text-sm pr-10" placeholder="••••••••" />
+                        <button type="button" id="btn-toggle-password" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined text-[18px]">visibility</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" id="remember-me" class="rounded bg-slate-950 border-slate-800 text-sky-500 focus:ring-sky-500 h-4 w-4" />
+                    <label for="remember-me" class="ml-2 text-xs text-slate-400">Keep me signed in on this device</label>
+                </div>
+                <button type="submit" class="w-full py-2.5 bg-sky-600 hover:bg-sky-500 text-white rounded-lg font-semibold text-sm transition-all duration-150 flex items-center justify-center gap-2 shadow-lg shadow-sky-900/30">
+                    Sign In
+                </button>
+            </form>
+
+            <div class="border-t border-slate-850 pt-4 flex flex-col gap-2">
+                <button class="w-full py-2 border border-slate-800 hover:bg-slate-850 text-slate-300 rounded-lg text-xs font-semibold transition-colors flex items-center justify-center gap-2">
+                    <img class="w-4 h-4" src="https://lh3.googleusercontent.com/COxitlgoAK1FJBg58w7O4AxQOHebwR7t44R65wHm4COxocjQP3aN7472yEre9g" alt="Google Logo"> Sign in with Google
+                </button>
+                <button class="w-full py-2 border border-slate-800 hover:bg-slate-850 text-slate-300 rounded-lg text-xs font-semibold transition-colors flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-[16px]">vpn_key</span> Enterprise Single Sign-On (SSO)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== APP LAYOUT ==================== -->
+    <div id="app-layout" class="min-h-screen flex overflow-hidden w-full hidden">
+        <!-- SideNavBar -->
+        <aside class="hidden md:flex flex-col h-screen w-64 left-0 top-0 bg-surface-container-low border-r border-outline-variant p-stack-md shrink-0 transition-all duration-200">
+            <div class="mb-stack-lg">
+                <h1 class="font-headline-section text-headline-section text-primary uppercase tracking-widest">GST Invoicer</h1>
+                <p id="aside-gstin-display" class="font-label-sm text-label-sm text-on-surface-variant mt-1">GSTIN: 27AAAAA0000A1Z5</p>
+            </div>
+            <nav class="flex flex-col gap-1 grow">
+                <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-all duration-200 cursor-pointer" data-tab="dashboard">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <span>Home</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-all duration-200 cursor-pointer" data-tab="invoices">
+                    <span class="material-symbols-outlined">receipt_long</span>
+                    <span>Sales</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-all duration-200 cursor-pointer" data-tab="clients">
+                    <span class="material-symbols-outlined">group</span>
+                    <span>Clients</span>
+                </a>
+                <div class="my-stack-md border-t border-outline-variant"></div>
+                <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-all duration-200 cursor-pointer" id="sidebar-header-btn">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span>Settings</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-all duration-200 cursor-pointer" id="btn-logout-desktop">
+                    <span class="material-symbols-outlined text-red-500">logout</span>
+                    <span class="text-red-500">Logout</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content Wrapper -->
+        <main class="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto">
+            <!-- TopAppBar -->
+            <header class="flex justify-between items-center w-full px-container-padding h-16 bg-primary text-on-primary sticky top-0 z-10 shrink-0">
+                <div class="flex items-center gap-4">
+                    <h2 class="font-headline-section text-headline-section font-bold" id="app-title-display">Dashboard</h2>
+                    <div class="hidden lg:flex items-center gap-6 ml-8">
+                        <a class="text-on-primary/70 font-medium hover:text-on-primary transition-colors font-body-main text-sm cursor-pointer" data-tab="dashboard">Dashboard</a>
+                        <a class="text-on-primary/70 font-medium hover:text-on-primary transition-colors font-body-main text-sm cursor-pointer" data-tab="invoices">Invoices</a>
+                        <a class="text-on-primary/70 font-medium hover:text-on-primary transition-colors font-body-main text-sm cursor-pointer" data-tab="clients">Clients</a>
+                    </div>
+                </div>
+                <div class="flex items-center gap-stack-md gap-4">
+                    <!-- NeDB Connection Status Badge -->
+                    <div id="db-status-badge" title="NeDB API Server Status" class="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-on-primary/10 border border-on-primary/20 cursor-default select-none transition-all duration-500">
+                        <span id="db-status-dot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                        <span id="db-status-text" class="text-[10px] font-bold text-on-primary/80 tracking-wider uppercase">Checking...</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button class="p-2 text-on-primary/70 hover:text-on-primary transition-colors">
+                            <span class="material-symbols-outlined">notifications</span>
+                        </button>
+                        <button class="p-2 text-on-primary/70 hover:text-on-primary transition-colors" id="btn-settings-company">
+                            <span class="material-symbols-outlined">settings</span>
+                        </button>
+                    </div>
+                    <button class="hidden sm:flex border-2 border-on-primary/30 bg-transparent text-on-primary px-4 py-2 rounded-xl text-sm font-semibold hover:bg-on-primary/10 transition-colors no-print" id="btn-top-pdf-export">
+                        Export PDF
+                    </button>
+                    <button class="bg-surface-page text-primary px-4 py-2 rounded-xl text-sm font-bold shadow-sm hover:bg-surface-container-high transition-all flex items-center gap-2 no-print" id="btn-create-invoice-desktop">
+                        <span class="material-symbols-outlined text-[18px]">add_circle</span>
+                        Create Invoice
+                    </button>
+                </div>
+            </header>
+
+            <!-- Dynamic View Container -->
+            <div id="main-content" class="p-container-padding space-y-stack-lg max-w-7xl mx-auto w-full flex-1 p-6 md:p-8">
+                <!-- Inner views rendered here -->
+            </div>
+
+            <!-- Footer -->
+            <footer class="mt-auto flex justify-between items-center w-full px-container-padding py-stack-md bg-surface-container-highest border-t border-outline-variant text-on-surface-variant font-label-sm text-label-sm p-6">
+                <div class="flex flex-col gap-1">
+                    <span class="font-label-caps text-label-caps text-primary">GST INVOICER OS</span>
+                    <p>© 2024 Compliance-Ready Systems. All GST calculations are indicative.</p>
+                </div>
+                <div class="flex gap-6">
+                    <a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+                    <a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+                    <a class="hover:text-primary transition-colors" href="#">Help Center</a>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- ==================== COMPANY PROFILE MODAL ==================== -->
+    <div id="company-profile-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-[999] p-4 hidden">
+        <div class="bg-white border border-slate-200 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl flex flex-col">
+            <div class="p-6 border-b border-slate-200 flex justify-between items-center bg-slate-50">
+                <div>
+                    <h3 class="text-lg font-bold text-slate-900">Company Settings & Defaults</h3>
+                    <p class="text-xs text-slate-500">Configure your professional profile and bank details.</p>
+                </div>
+                <button id="btn-close-company-modal" class="material-symbols-outlined text-slate-400 hover:text-slate-700 transition-colors">
+                    close
+                </button>
+            </div>
+
+            <form id="company-profile-form" class="p-6 space-y-6 flex-1">
+                <!-- Section: Business Information -->
+                <div class="space-y-4">
+                    <h4 class="text-xs font-bold text-sky-600 tracking-wider border-b border-slate-100 pb-1">Business identity</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="flex flex-col gap-1">
+                            <label class="text-xs font-semibold text-slate-600">Company Name *</label>
+                            <input id="company-name" type="text" required class="form-input text-xs w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-sky-500 focus:border-sky-500" placeholder="e.g. GK Fintrics Solutions" />
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <label class="text-xs font-semibold text-slate-600">GSTIN / Tax ID *</label>
+                            <input id="company-gstin" type="text" required class="form-input text-xs w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-sky-500 focus:border-sky-500" placeholder="e.g. 27AAAAA1111A1Z1" />
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <label class="text-xs font-semibold text-slate-600">Billing Email *</label>
+                            <input id="company-email" type="email" required class="form-input text-xs w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-sky-500 focus:border-sky-500" placeholder="e.g. finance@gkfintrics.com" />
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <label class="text-xs font-semibold text-slate-600">Contact Phone *</label>
+                            <input id="company-phone" type="text" required class="form-input text-xs w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-sky-500 focus:border-sky-500" placeholder="e.g. +91 98765 43210" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section: Registered Address -->
+                <div class="space-y-4">
+                    <h4 class="text-xs font-bold text-sky-600 tracking-wider border-b border-slate-100 pb-1">Registered address</h4>
+                    <div class="grid grid-cols-1 gap-4">
+                        <div class="flex flex-col gap-1">
+                            <label class="text-xs font-semibold text-slate-600">Address Line 1 *</label>
+                            <input id="company-address1" type="text" required class="form-input text-xs w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-sky-500 focus:border-sky-500" placeholder="e.g. 101, Business Hub" />
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="flex flex-col gap-1">
+                                <label class="text-xs font-semibold text-slate-600">Address Line 2</label>
+                                <input id="company-address2" type="text" class="form-input text-xs w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-sky-500 focus:border-sky-500" placeholder="e.g. Senapati Bapat Marg" />
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <label class="text-xs font-semibold text-slate-600">Address Line 3</label>
+                                <input id="company-address3" type="text" class="form-input text-xs w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-sky-500 focus:border-sky-500" placeholder="e.g. Lower Parel" />
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                            <div class="flex flex-col gap-1">
+                                <label class="text-xs font-semibold text-slate-600">City *</label>
+                                <input id="company-city" type="text" required class="form-input text-xs w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-sky-500 focus:border-sky-500" placeholder="e.g. Mumbai" />
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <label class="text-xs font-semibold text-slate-600">Pincode *</label>
+                                <input id="company-pincode" type="text" required class="form-input text-xs w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-sky-500 focus:border-sky-500" placeholder="e.g. 400013" />
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <label class="text-xs font-semibold text-slate-600">State *</label>
+                                <input id="company-state" type="text" required class="form-input text-xs w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-sky-500 focus:border-sky-500" placeholder="Select state..." />
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <label class="text-xs font-semibold text-slate-600">Country *</label>
+                                <input id="company-country" type="text" required class="form-input text-xs w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-sky-500 focus:border-sky-500" placeholder="Select country..." />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section: Default Bank Profile -->
+                <div class="space-y-4">
+                    <h4 class="text-xs font-bold text-sky-600 tracking-wider border-b border-slate-100 pb-1">Default bank details</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="flex flex-col gap-1">
+                            <label class="text-xs font-semibold text-slate-600">Beneficiary Name *</label>
+                            <input id="company-bank-acc-name" type="text" required class="form-input text-xs w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-sky-500 focus:border-sky-500" placeholder="e.g. GK Fintrics Solutions Private Limited" />
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <label class="text-xs font-semibold text-slate-600">Bank Name *</label>
+                            <input id="company-bank-name" type="text" required class="form-input text-xs w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-sky-500 focus:border-sky-500" placeholder="e.g. HDFC Bank" />
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <label class="text-xs font-semibold text-slate-600">Account Number *</label>
+                            <input id="company-bank-acc-no" type="text" required class="form-input text-xs w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-sky-500 focus:border-sky-500" placeholder="e.g. 50100200300400" />
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <label class="text-xs font-semibold text-slate-600">IFSC Code *</label>
+                            <input id="company-bank-ifsc" type="text" required class="form-input text-xs w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-sky-500 focus:border-sky-500" placeholder="e.g. HDFC0000001" />
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <label class="text-xs font-semibold text-slate-600">Branch Name *</label>
+                            <input id="company-bank-branch" type="text" required class="form-input text-xs w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-sky-500 focus:border-sky-500" placeholder="e.g. BKC Branch" />
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <label class="text-xs font-semibold text-slate-600">Account Type *</label>
+                            <input id="company-bank-acc-type" type="text" required class="form-input text-xs w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-sky-500 focus:border-sky-500" placeholder="Select or type account type..." />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-end pt-4 gap-2 border-t border-slate-200">
+                    <button id="btn-cancel-company-modal" type="button" class="px-4 py-2 border border-slate-200 rounded-lg text-xs font-semibold text-slate-650 hover:bg-slate-50 transition-colors">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-slate-900 text-white rounded-lg text-xs font-semibold hover:bg-slate-800 transition-colors">Save Profile</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Hidden file input for Import Invoices -->
+    <input type="file" id="import-invoices-file" accept=".json,.csv" class="hidden">
+
+    <!-- ==================== IMPORT INVOICES MODAL ==================== -->
+    <div id="import-invoices-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-[999] p-4 hidden">
+        <div class="bg-white border border-slate-200 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl flex flex-col">
+            <!-- Header -->
+            <div class="p-6 border-b border-slate-200 flex justify-between items-center bg-slate-50 rounded-t-2xl">
+                <div>
+                    <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sky-600">upload_file</span>
+                        Import Sales Invoices
+                    </h3>
+                    <p class="text-xs text-slate-500 mt-0.5">Upload a JSON or CSV file to batch-import invoices into the NeDB database.</p>
+                </div>
+                <button id="btn-close-import-modal" class="material-symbols-outlined text-slate-400 hover:text-slate-700 transition-colors">close</button>
+            </div>
+
+            <!-- Drop Zone -->
+            <div id="import-drop-zone" class="m-6 border-2 border-dashed border-slate-300 rounded-xl p-8 text-center cursor-pointer hover:border-sky-400 hover:bg-sky-50/40 transition-all duration-200 group">
+                <span class="material-symbols-outlined text-5xl text-slate-300 group-hover:text-sky-400 transition-colors" style="font-variation-settings:'FILL' 0,'wght' 200">cloud_upload</span>
+                <p class="mt-3 text-sm font-semibold text-slate-600">Drag &amp; drop a file here, or <span class="text-sky-600 underline cursor-pointer" id="import-browse-link">browse</span></p>
+                <p class="text-xs text-slate-400 mt-1">Supported formats: <strong>.json</strong> (array of invoice objects) &nbsp;·&nbsp; <strong>.csv</strong> (with headers)</p>
+            </div>
+
+            <!-- Format Guide -->
+            <div class="mx-6 mb-4 grid grid-cols-2 gap-3">
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-3">
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">JSON Format</p>
+                    <pre class="text-[10px] text-slate-600 overflow-auto">[{"id":"INV-001","clientName":"Client","date":"2026-01-01","dueDate":"2026-01-31","amount":5000,"status":"Pending"}]</pre>
+                </div>
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-3">
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">CSV Format</p>
+                    <pre class="text-[10px] text-slate-600 overflow-auto">id,clientName,date,dueDate,amount,status\nINV-001,Client,2026-01-01,2026-01-31,5000,Pending</pre>
+                </div>
+            </div>
+
+            <!-- Preview Table (hidden initially) -->
+            <div id="import-preview-section" class="hidden px-6 pb-2">
+                <div class="flex justify-between items-center mb-2">
+                    <p class="text-xs font-bold text-slate-700">Preview — <span id="import-count">0</span> invoice(s) found</p>
+                    <div class="flex gap-2">
+                        <span id="import-valid-count" class="px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded-full text-[10px] font-bold">0 valid</span>
+                        <span id="import-invalid-count" class="px-2 py-0.5 bg-red-100 text-red-700 rounded-full text-[10px] font-bold hidden">0 invalid</span>
+                    </div>
+                </div>
+                <div class="border border-slate-200 rounded-xl overflow-hidden max-h-52 overflow-y-auto">
+                    <table class="w-full text-left text-xs">
+                        <thead class="bg-slate-800 text-white sticky top-0">
+                            <tr>
+                                <th class="px-3 py-2">Invoice #</th>
+                                <th class="px-3 py-2">Client Name</th>
+                                <th class="px-3 py-2">Date</th>
+                                <th class="px-3 py-2 text-right">Amount</th>
+                                <th class="px-3 py-2">Status</th>
+                                <th class="px-3 py-2">Valid</th>
+                            </tr>
+                        </thead>
+                        <tbody id="import-preview-rows" class="divide-y divide-slate-100">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Error Banner -->
+            <div id="import-error-banner" class="hidden mx-6 mb-3 p-3 bg-red-50 border border-red-200 rounded-xl flex items-start gap-2">
+                <span class="material-symbols-outlined text-red-500 text-[18px] shrink-0">error</span>
+                <p id="import-error-text" class="text-xs text-red-700"></p>
+            </div>
+
+            <!-- Actions -->
+            <div class="p-6 border-t border-slate-200 flex justify-between items-center bg-slate-50 rounded-b-2xl">
+                <button id="btn-import-clear" class="text-xs font-semibold text-slate-500 hover:text-slate-800 transition-colors hidden">Clear &amp; Reset</button>
+                <div class="flex gap-3 ml-auto">
+                    <button id="btn-import-cancel" class="px-4 py-2 border border-slate-200 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors">Cancel</button>
+                    <button id="btn-import-confirm" class="px-5 py-2 bg-slate-900 text-white rounded-lg text-xs font-bold hover:bg-slate-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2" disabled>
+                        <span class="material-symbols-outlined text-[16px]">save</span>
+                        Import to NeDB
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Module Script -->
+    <script type="module" src="/src/app.js"></script>
+</body>
+
+</html>

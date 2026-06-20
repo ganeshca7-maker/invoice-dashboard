@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Invoice Dashboard</string>
+    <string name="title_activity_main">Invoice Dashboard</string>
+    <string name="package_name">com.yourname.invoicedashboard</string>
+    <string name="custom_url_scheme">com.yourname.invoicedashboard</string>
+</resources>

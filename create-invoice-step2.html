@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>BillSimple - Create Invoice Step 2</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary": "#006c49",
+                    "inverse-primary": "#bec6e0",
+                    "surface-container-highest": "#d3e4fe",
+                    "surface": "#f8f9ff",
+                    "secondary-fixed": "#6ffbbe",
+                    "surface-container-lowest": "#ffffff",
+                    "outline": "#76777d",
+                    "on-primary-container": "#7c839b",
+                    "on-primary-fixed-variant": "#3f465c",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-tertiary-fixed": "#001a42",
+                    "surface-container-high": "#dce9ff",
+                    "primary-fixed-dim": "#bec6e0",
+                    "on-surface": "#0b1c30",
+                    "surface-container": "#e5eeff",
+                    "on-secondary-fixed": "#002113",
+                    "on-surface-variant": "#45464d",
+                    "on-secondary": "#ffffff",
+                    "tertiary-fixed-dim": "#adc6ff",
+                    "tertiary-container": "#001a42",
+                    "surface-bright": "#f8f9ff",
+                    "surface-tint": "#565e74",
+                    "inverse-surface": "#213145",
+                    "on-tertiary-fixed-variant": "#004395",
+                    "surface-container-low": "#eff4ff",
+                    "outline-variant": "#c6c6cd",
+                    "secondary-fixed-dim": "#4edea3",
+                    "on-primary-fixed": "#131b2e",
+                    "on-error-container": "#93000a",
+                    "on-secondary-container": "#00714d",
+                    "background": "#f8f9ff",
+                    "on-tertiary": "#ffffff",
+                    "primary-fixed": "#dae2fd",
+                    "tertiary-fixed": "#d8e2ff",
+                    "tertiary": "#000000",
+                    "on-primary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#cbdbf5",
+                    "error": "#ba1a1a",
+                    "on-secondary-fixed-variant": "#005236",
+                    "primary-container": "#131b2e",
+                    "on-background": "#0b1c30",
+                    "surface-variant": "#d3e4fe",
+                    "secondary-container": "#6cf8bb",
+                    "primary": "#000000",
+                    "on-tertiary-container": "#3980f4"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "sm": "8px",
+                    "lg": "24px",
+                    "base": "4px",
+                    "xs": "4px",
+                    "xl": "32px",
+                    "md": "16px",
+                    "gutter-mobile": "12px"
+            },
+            "fontFamily": {
+                    "headline-sm": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "numeric-data": ["Inter"],
+                    "body-lg": ["Inter"]
+              },
+            "fontSize": {
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "numeric-data": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .step-active { color: #000000; }
+        .step-inactive { color: #76777d; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+    </style>
+    <style>
+        body {
+          min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface-dim shadow-sm dark:shadow-none docked full-width top-0 z-50">
+    <div class="flex justify-between items-center w-full px-md h-14 md:h-16 max-w-7xl mx-auto">
+        <div class="flex items-center gap-4">
+            <button onclick="window.history.back()" class="hover:bg-surface-container-low p-2 rounded-full transition-colors active:scale-95 duration-150">
+                <span class="material-symbols-outlined text-primary">arrow_back</span>
+            </button>
+            <h1 onclick="window.location.href='index.html'" class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary cursor-pointer">BillSimple</h1>
+        </div>
+        <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-primary p-2 hover:bg-surface-container-low rounded-full cursor-pointer">notifications</span>
+            <div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant">
+                <img alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFCJboC-ryyF8tH1iXuhUK8WI0fADx6zGFVX9CM4PBDhjl9DAiYtblemMjvSXLg9RVzVgSit5-Rl0ZDUeCkNR0NlkT6R_7GOuPjwkGFzr5rSPDlMM3POIlQ7dLWlzR0fwkMtTJwk5DvsK6Tts7BzeStf1oIXtb5KmlecQlqqCUxmmkIkLhEfwbohWmEh287Xpg5dKKNlHe8tvD6hvhwE3zQCZRTspi9V2AoHJYsIsnPt_peWPHdT-Gy0MkzI-WKmbRKBOBwizz_is"/>
+            </div>
+        </div>
+    </div>
+</header>
+<main class="flex-grow max-w-3xl mx-auto w-full px-margin-mobile py-lg pb-32">
+    <!-- Progress Stepper -->
+    <nav class="mb-xl">
+        <div class="flex items-center justify-between relative">
+            <!-- Line -->
+            <div class="absolute top-1/2 left-0 w-full h-[2px] bg-outline-variant -translate-y-1/2 z-0"></div>
+            <div class="absolute top-1/2 left-0 w-1/2 h-[2px] bg-secondary -translate-y-1/2 z-0 transition-all duration-500"></div>
+            <!-- Step 1 -->
+            <div class="relative z-10 flex flex-col items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-secondary text-on-secondary flex items-center justify-center font-bold text-sm">
+                    <span class="material-symbols-outlined text-base">check</span>
+                </div>
+                <span class="font-label-md text-label-md text-on-surface">General Info</span>
+            </div>
+            <!-- Step 2 -->
+            <div class="relative z-10 flex flex-col items-center gap-2">
+                <div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold shadow-md border-4 border-surface">
+                    2
+                </div>
+                <span class="font-label-md text-label-md text-primary">Customer Details</span>
+            </div>
+            <!-- Step 3 -->
+            <div class="relative z-10 flex flex-col items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-surface-container-high text-outline flex items-center justify-center font-bold text-sm border-2 border-outline-variant">
+                    3
+                </div>
+                <span class="font-label-md text-label-md text-outline">Line Items</span>
+            </div>
+        </div>
+    </nav>
+    <!-- Form Content -->
+    <form id="client-details-form" class="space-y-lg">
+        <!-- Customer Selection Card -->
+        <section class="bg-surface-container-lowest p-md rounded-xl shadow-[0px_4px_12px_rgba(15,23,42,0.05)] border border-outline-variant/30">
+            <header class="mb-md">
+                <h2 class="font-headline-sm text-headline-sm-mobile text-on-surface">Client Identity</h2>
+                <p class="text-on-surface-variant font-body-md">Select an existing client or enter details manually.</p>
+            </header>
+            <div class="space-y-md">
+                <div class="relative">
+                    <label class="block font-label-md text-label-md text-on-surface-variant mb-xs" for="client-name">Client Name</label>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
+                        <input required class="w-full h-[52px] pl-10 pr-md bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all font-body-md" id="client-name" placeholder="Search for a client..." type="text"/>
+                    </div>
+                    <!-- Dropdown Suggestion Mockup -->
+                    <div class="hidden absolute w-full mt-1 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-lg z-20 overflow-hidden" id="client-suggestions">
+                        <!-- Filled dynamically by JavaScript -->
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+                    <div>
+                        <label class="block font-label-md text-label-md text-on-surface-variant mb-xs" for="gstin">GSTIN (Optional)</label>
+                        <input class="w-full h-[52px] px-md bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all font-body-md uppercase" id="gstin" placeholder="22AAAAA0000A1Z5" type="text"/>
+                    </div>
+                    <div>
+                        <label class="block font-label-md text-label-md text-on-surface-variant mb-xs" for="place-supply">Place of Supply</label>
+                        <select class="w-full h-[52px] px-md bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all font-body-md" id="place-supply">
+                            <option>Maharashtra (27)</option>
+                            <option>Delhi (07)</option>
+                            <option>Karnataka (29)</option>
+                            <option>Tamil Nadu (33)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Addresses Section (Bento Style) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+            <!-- Billing Address -->
+            <section class="bg-surface-container-lowest p-md rounded-xl shadow-[0px_4px_12px_rgba(15,23,42,0.05)] border border-outline-variant/30">
+                <div class="flex items-center justify-between mb-md">
+                    <h2 class="font-headline-sm text-[18px] text-on-surface flex items-center gap-2">
+                        <span class="material-symbols-outlined text-secondary">receipt_long</span> Billing Address
+                    </h2>
+                </div>
+                <div class="space-y-md">
+                    <div>
+                        <label class="block font-label-md text-label-md text-on-surface-variant mb-xs">Street Address</label>
+                        <textarea required id="billing-street" class="w-full p-md bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all font-body-md resize-none" placeholder="123 Business Avenue, Park Street" rows="2"></textarea>
+                    </div>
+                    <div class="grid grid-cols-2 gap-md">
+                        <div>
+                            <label class="block font-label-md text-label-md text-on-surface-variant mb-xs">City</label>
+                            <input required id="billing-city" class="w-full h-[52px] px-md bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all font-body-md" placeholder="Mumbai" type="text"/>
+                        </div>
+                        <div>
+                            <label class="block font-label-md text-label-md text-on-surface-variant mb-xs">PIN Code</label>
+                            <input required id="billing-pin" class="w-full h-[52px] px-md bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all font-body-md" placeholder="400001" type="text"/>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block font-label-md text-label-md text-on-surface-variant mb-xs">State</label>
+                        <input required id="billing-state" class="w-full h-[52px] px-md bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all font-body-md" placeholder="Maharashtra" type="text"/>
+                    </div>
+                </div>
+            </section>
+            <!-- Shipping Address -->
+            <section class="bg-surface-container-lowest p-md rounded-xl shadow-[0px_4px_12px_rgba(15,23,42,0.05)] border border-outline-variant/30">
+                <div class="flex items-center justify-between mb-md">
+                    <h2 class="font-headline-sm text-[18px] text-on-surface flex items-center gap-2">
+                        <span class="material-symbols-outlined text-secondary">local_shipping</span> Shipping Address
+                    </h2>
+                    <label class="flex items-center gap-2 cursor-pointer group">
+                        <input checked="" class="w-5 h-5 rounded border-outline-variant text-secondary focus:ring-secondary cursor-pointer" id="same-address" type="checkbox"/>
+                        <span class="font-label-md text-label-md text-on-surface-variant group-hover:text-secondary transition-colors">Same as Billing</span>
+                    </label>
+                </div>
+                <div class="space-y-md opacity-50 pointer-events-none transition-all duration-300" id="shipping-fields">
+                    <div>
+                        <label class="block font-label-md text-label-md text-on-surface-variant mb-xs">Street Address</label>
+                        <textarea id="shipping-street" class="w-full p-md bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all font-body-md resize-none" placeholder="123 Business Avenue, Park Street" rows="2"></textarea>
+                    </div>
+                    <div class="grid grid-cols-2 gap-md">
+                        <div>
+                            <label class="block font-label-md text-label-md text-on-surface-variant mb-xs">City</label>
+                            <input id="shipping-city" class="w-full h-[52px] px-md bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all font-body-md" placeholder="Mumbai" type="text"/>
+                        </div>
+                        <div>
+                            <label class="block font-label-md text-label-md text-on-surface-variant mb-xs">PIN Code</label>
+                            <input id="shipping-pin" class="w-full h-[52px] px-md bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all font-body-md" placeholder="400001" type="text"/>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block font-label-md text-label-md text-on-surface-variant mb-xs">State</label>
+                        <input id="shipping-state" class="w-full h-[52px] px-md bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all font-body-md" placeholder="Maharashtra" type="text"/>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <!-- Contact Information -->
+        <section class="bg-surface-container-lowest p-md rounded-xl shadow-[0px_4px_12px_rgba(15,23,42,0.05)] border border-outline-variant/30">
+            <header class="mb-md">
+                <h2 class="font-headline-sm text-headline-sm-mobile text-on-surface">Contact Personnel</h2>
+            </header>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+                <div>
+                    <label class="block font-label-md text-label-md text-on-surface-variant mb-xs">Contact Person</label>
+                    <input id="contact-person" class="w-full h-[52px] px-md bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all font-body-md" placeholder="John Doe" type="text"/>
+                </div>
+                <div>
+                    <label class="block font-label-md text-label-md text-on-surface-variant mb-xs">Email Address</label>
+                    <input id="contact-email" class="w-full h-[52px] px-md bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all font-body-md" placeholder="john.doe@client.com" type="email"/>
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block font-label-md text-label-md text-on-surface-variant mb-xs">Phone Number</label>
+                    <div class="flex">
+                        <span class="inline-flex items-center px-4 rounded-l-lg border border-r-0 border-outline-variant bg-surface-container-low text-on-surface-variant font-body-md">
+                            +91
+                        </span>
+                        <input id="contact-phone" class="w-full h-[52px] px-md bg-surface border border-outline-variant rounded-r-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all font-body-md" placeholder="98765 43210" type="tel"/>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </form>
+</main>
+<!-- Bottom Action Bar -->
+<footer class="fixed bottom-0 left-0 right-0 bg-surface-container-lowest dark:bg-surface-container-low border-t border-outline-variant/20 shadow-[0px_-4px_12px_rgba(15,23,42,0.05)] z-40 p-md">
+    <div class="max-w-3xl mx-auto flex items-center justify-between gap-4">
+        <button onclick="window.location.href='create-invoice-step1.html'" class="flex-1 h-[52px] flex items-center justify-center gap-2 text-primary border-2 border-primary rounded-xl font-headline-sm text-[16px] hover:bg-surface-container-low transition-all active:scale-95 duration-150">
+            <span class="material-symbols-outlined">arrow_back</span>
+            Back
+        </button>
+        <button form="client-details-form" type="submit" class="flex-[2] h-[52px] flex items-center justify-center gap-2 bg-secondary text-on-secondary rounded-xl font-headline-sm text-[16px] shadow-lg hover:brightness-110 transition-all active:scale-95 duration-150">
+            Save and Continue
+            <span class="material-symbols-outlined">arrow_forward</span>
+        </button>
+    </div>
+</footer>
+<script>
+    const getApiUrl = (path) => {
+        const isCapacitor = window.location.origin.includes('localhost') && !window.location.port;
+        const base = isCapacitor ? 'http://10.0.2.2:3000' : '';
+        return `${base}${path}`;
+    };
+
+    const sameAddressCheckbox = document.getElementById('same-address');
+    const shippingFields = document.getElementById('shipping-fields');
+    const clientSearchInput = document.getElementById('client-name');
+    const suggestionsBox = document.getElementById('client-suggestions');
+
+    // List of clients fetched from server
+    let globalClients = [];
+
+    async function fetchClients() {
+        try {
+            const res = await fetch(getApiUrl('/api/clients'));
+            globalClients = await res.json();
+        } catch (err) {
+            console.error('Failed to fetch clients:', err);
+        }
+    }
+
+    sameAddressCheckbox.addEventListener('change', (e) => {
+        if (e.target.checked) {
+            shippingFields.classList.add('opacity-50', 'pointer-events-none');
+        } else {
+            shippingFields.classList.remove('opacity-50', 'pointer-events-none');
+        }
+    });
+
+    clientSearchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        if (!query) {
+            suggestionsBox.classList.add('hidden');
+            return;
+        }
+
+        const matches = globalClients.filter(c => 
+            c.name.toLowerCase().includes(query) || 
+            (c.company && c.company.toLowerCase().includes(query))
+        );
+
+        if (matches.length === 0) {
+            suggestionsBox.classList.add('hidden');
+            return;
+        }
+
+        suggestionsBox.innerHTML = matches.map(c => `
+            <div data-id="${c.id}" class="suggestion-item p-3 hover:bg-surface-container-low cursor-pointer flex items-center gap-3 border-b border-outline-variant/30">
+                <div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-xs">
+                    ${c.initials || c.name.slice(0, 2).toUpperCase()}
+                </div>
+                <div>
+                    <p class="font-body-md font-bold">${c.name}</p>
+                    <p class="text-xs text-outline">${c.email || c.company || ''}</p>
+                </div>
+            </div>
+        `).join('');
+
+        suggestionsBox.classList.remove('hidden');
+
+        // Bind clicks on suggestions
+        suggestionsBox.querySelectorAll('.suggestion-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const clientId = item.getAttribute('data-id');
+                const client = globalClients.find(c => c.id === clientId);
+                if (client) {
+                    autofillClient(client);
+                }
+                suggestionsBox.classList.add('hidden');
+            });
+        });
+    });
+
+    function autofillClient(client) {
+        clientSearchInput.value = client.name;
+        document.getElementById('gstin').value = client.gstin || '';
+        
+        // Match state select
+        const stateSelect = document.getElementById('place-supply');
+        if (client.state) {
+            for (let i = 0; i < stateSelect.options.length; i++) {
+                if (stateSelect.options[i].text.toLowerCase().includes(client.state.toLowerCase())) {
+                    stateSelect.selectedIndex = i;
+                    break;
+                }
+            }
+        }
+
+        // Addresses
+        document.getElementById('billing-street').value = [client.address1, client.address2, client.address3].filter(Boolean).join(', ');
+        document.getElementById('billing-city').value = client.city || '';
+        document.getElementById('billing-pin').value = client.pincode || '';
+        document.getElementById('billing-state').value = client.state || '';
+
+        // Contact
+        document.getElementById('contact-person').value = client.name || '';
+        document.getElementById('contact-email').value = client.email || '';
+        document.getElementById('contact-phone').value = client.phone ? client.phone.replace('+91', '').trim() : '';
+    }
+
+    clientSearchInput.addEventListener('focus', () => {
+        if (clientSearchInput.value.trim() !== '') {
+            suggestionsBox.classList.remove('hidden');
+        }
+    });
+
+    // Hide suggestions when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!clientSearchInput.contains(e.target) && !suggestionsBox.contains(e.target)) {
+            suggestionsBox.classList.add('hidden');
+        }
+    });
+
+    // Load draft and fetch clients on load
+    document.addEventListener('DOMContentLoaded', async () => {
+        await fetchClients();
+
+        const draft = JSON.parse(localStorage.getItem('invoice_draft_step2') || '{}');
+        if (draft.clientName) {
+            clientSearchInput.value = draft.clientName;
+            document.getElementById('gstin').value = draft.gstin || '';
+            document.getElementById('place-supply').value = draft.placeOfSupply || '';
+            document.getElementById('billing-street').value = draft.billingStreet || '';
+            document.getElementById('billing-city').value = draft.billingCity || '';
+            document.getElementById('billing-pin').value = draft.billingPin || '';
+            document.getElementById('billing-state').value = draft.billingState || '';
+            
+            sameAddressCheckbox.checked = draft.sameAddress !== false;
+            if (!sameAddressCheckbox.checked) {
+                shippingFields.classList.remove('opacity-50', 'pointer-events-none');
+                document.getElementById('shipping-street').value = draft.shippingStreet || '';
+                document.getElementById('shipping-city').value = draft.shippingCity || '';
+                document.getElementById('shipping-pin').value = draft.shippingPin || '';
+                document.getElementById('shipping-state').value = draft.shippingState || '';
+            }
+
+            document.getElementById('contact-person').value = draft.contactPerson || '';
+            document.getElementById('contact-email').value = draft.contactEmail || '';
+            document.getElementById('contact-phone').value = draft.contactPhone || '';
+        }
+
+        // Section animations
+        document.querySelectorAll('section').forEach((section, index) => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'all 0.4s ease-out ' + (index * 0.1) + 's';
+            
+            setTimeout(() => {
+                section.style.opacity = '1';
+                section.style.transform = 'translateY(0)';
+            }, 50);
+        });
+    });
+
+    document.getElementById('client-details-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const step2Data = {
+            clientName: clientSearchInput.value.trim(),
+            gstin: document.getElementById('gstin').value.trim(),
+            placeOfSupply: document.getElementById('place-supply').value,
+            billingStreet: document.getElementById('billing-street').value.trim(),
+            billingCity: document.getElementById('billing-city').value.trim(),
+            billingPin: document.getElementById('billing-pin').value.trim(),
+            billingState: document.getElementById('billing-state').value.trim(),
+            sameAddress: sameAddressCheckbox.checked,
+            shippingStreet: sameAddressCheckbox.checked ? document.getElementById('billing-street').value.trim() : document.getElementById('shipping-street').value.trim(),
+            shippingCity: sameAddressCheckbox.checked ? document.getElementById('billing-city').value.trim() : document.getElementById('shipping-city').value.trim(),
+            shippingPin: sameAddressCheckbox.checked ? document.getElementById('billing-pin').value.trim() : document.getElementById('shipping-pin').value.trim(),
+            shippingState: sameAddressCheckbox.checked ? document.getElementById('billing-state').value.trim() : document.getElementById('shipping-state').value.trim(),
+            contactPerson: document.getElementById('contact-person').value.trim(),
+            contactEmail: document.getElementById('contact-email').value.trim(),
+            contactPhone: document.getElementById('contact-phone').value.trim()
+        };
+
+        localStorage.setItem('invoice_draft_step2', JSON.stringify(step2Data));
+        window.location.href = 'create-invoice-step3.html';
+    });
+</script>
+</body>
+</html>

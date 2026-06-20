@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Invoice Creator - Step 1</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9ff;
+        }
+        .step-active {
+            box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #006c49;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary": "#006c49",
+                      "inverse-primary": "#bec6e0",
+                      "surface-container-highest": "#d3e4fe",
+                      "surface": "#f8f9ff",
+                      "secondary-fixed": "#6ffbbe",
+                      "surface-container-lowest": "#ffffff",
+                      "outline": "#76777d",
+                      "on-primary-container": "#7c839b",
+                      "on-primary-fixed-variant": "#3f465c",
+                      "inverse-on-surface": "#eaf1ff",
+                      "on-tertiary-fixed": "#001a42",
+                      "surface-container-high": "#dce9ff",
+                      "primary-fixed-dim": "#bec6e0",
+                      "on-surface": "#0b1c30",
+                      "surface-container": "#e5eeff",
+                      "on-secondary-fixed": "#002113",
+                      "on-surface-variant": "#45464d",
+                      "on-secondary": "#ffffff",
+                      "tertiary-fixed-dim": "#adc6ff",
+                      "tertiary-container": "#001a42",
+                      "surface-bright": "#f8f9ff",
+                      "surface-tint": "#565e74",
+                      "inverse-surface": "#213145",
+                      "on-tertiary-fixed-variant": "#004395",
+                      "surface-container-low": "#eff4ff",
+                      "outline-variant": "#c6c6cd",
+                      "secondary-fixed-dim": "#4edea3",
+                      "on-primary-fixed": "#131b2e",
+                      "on-error-container": "#93000a",
+                      "on-secondary-container": "#00714d",
+                      "background": "#f8f9ff",
+                      "on-tertiary": "#ffffff",
+                      "primary-fixed": "#dae2fd",
+                      "tertiary-fixed": "#d8e2ff",
+                      "tertiary": "#000000",
+                      "on-primary": "#ffffff",
+                      "error-container": "#ffdad6",
+                      "on-error": "#ffffff",
+                      "surface-dim": "#cbdbf5",
+                      "error": "#ba1a1a",
+                      "on-secondary-fixed-variant": "#005236",
+                      "primary-container": "#131b2e",
+                      "on-background": "#0b1c30",
+                      "surface-variant": "#d3e4fe",
+                      "secondary-container": "#6cf8bb",
+                      "primary": "#000000",
+                      "on-tertiary-container": "#3980f4"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-mobile": "16px",
+                      "sm": "8px",
+                      "lg": "24px",
+                      "base": "4px",
+                      "xs": "4px",
+                      "xl": "32px",
+                      "md": "16px",
+                      "gutter-mobile": "12px"
+              },
+              "fontFamily": {
+                      "headline-sm": ["Inter"],
+                      "display-lg": ["Inter"],
+                      "label-md": ["Inter"],
+                      "body-md": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "numeric-data": ["Inter"],
+                      "body-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "numeric-data": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+    <style>
+        body {
+          min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col">
+<!-- Top Navigation Bar -->
+<header class="bg-surface shadow-sm docked full-width top-0 z-40 sticky">
+    <div class="flex justify-between items-center w-full px-md h-14 md:h-16 max-w-7xl mx-auto">
+        <div class="flex items-center gap-sm">
+            <span onclick="window.location.href='index.html'" class="font-display-lg text-display-lg-mobile text-primary tracking-tight cursor-pointer">BillSimple</span>
+        </div>
+        <div class="flex items-center gap-md">
+            <button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-low transition-colors p-2 rounded-full">notifications</button>
+            <div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center border border-outline-variant overflow-hidden">
+                <img alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgPHWtz890Ea3FXYoWaXA5TR3RjK0LoUDVUnZ_DvipMqQA9KeGzjscFsPDFi22bvEdRxVIVObgY85enN09232h-vbOIt0GAG_LXN33JQohkCC7LtXLgUaacdLv13LqApvYdJka_RiQkih7eHWuoruNBFfsGDIc3yPxXKMge8H-mV98ZDlBCUCkVLSzH2q295FXmU9uyANEAqc8cfbPP2sg_bS1WVZm4l52mQ8SSLNLrbsmi1WrIwQ2I2xCW4TbkKcZSuLnoRQV6QU"/>
+            </div>
+        </div>
+    </div>
+</header>
+<main class="flex-grow w-full max-w-4xl mx-auto px-md py-lg mb-20">
+    <!-- Progress Stepper -->
+    <section class="mb-xl">
+        <div class="flex items-center justify-between mb-sm">
+            <h2 class="font-headline-sm text-headline-sm-mobile md:text-headline-sm">Step 1 of 3: Invoice Details</h2>
+            <span class="text-on-surface-variant font-label-md text-label-md">33% Complete</span>
+        </div>
+        <div class="h-1.5 w-full bg-surface-container-high rounded-full overflow-hidden">
+            <div class="h-full bg-secondary w-1/3 transition-all duration-500 ease-out"></div>
+        </div>
+        <div class="mt-md flex justify-between">
+            <div class="flex flex-col items-center gap-1">
+                <div class="w-8 h-8 rounded-full bg-secondary text-white flex items-center justify-center font-bold text-sm shadow-sm ring-4 ring-secondary-container/30">1</div>
+                <span class="text-xs font-semibold text-secondary">Details</span>
+            </div>
+            <div class="flex flex-col items-center gap-1 opacity-40">
+                <div class="w-8 h-8 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center font-bold text-sm">2</div>
+                <span class="text-xs font-medium text-on-surface-variant">Client</span>
+            </div>
+            <div class="flex flex-col items-center gap-1 opacity-40">
+                <div class="w-8 h-8 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center font-bold text-sm">3</div>
+                <span class="text-xs font-medium text-on-surface-variant">Items</span>
+            </div>
+        </div>
+    </section>
+    <!-- Invoice Form -->
+    <form id="invoice-details-form" class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md md:p-xl shadow-[0px_4px_12px_rgba(15,23,42,0.05)] space-y-lg">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+            <!-- Primary Fields -->
+            <div class="flex flex-col gap-sm">
+                <div class="flex justify-between items-center">
+                    <label class="font-label-md text-label-md text-on-surface-variant">Invoice number</label>
+                    <!-- Settings Trigger Button -->
+                    <button type="button" id="btn-numbering-settings" class="text-on-surface-variant hover:text-secondary p-1 rounded-full hover:bg-surface-container-low transition-colors flex items-center justify-center">
+                        <span class="material-symbols-outlined text-[20px]">settings</span>
+                    </button>
+                </div>
+                <input required class="h-[52px] px-md rounded-lg border border-outline-variant bg-surface-bright focus:border-secondary focus:ring-2 focus:ring-secondary-container/20 outline-none transition-all font-numeric-data text-numeric-data w-full" id="invoice-num" placeholder="INV-0001" type="text"/>
+            </div>
+            <div class="flex flex-col gap-sm">
+                <label class="font-label-md text-label-md text-on-surface-variant">Invoice date</label>
+                <input required class="h-[52px] px-md rounded-lg border border-outline-variant bg-surface-bright focus:border-secondary focus:ring-2 focus:ring-secondary-container/20 outline-none transition-all w-full" id="invoice-date" type="date"/>
+            </div>
+        </div>
+
+        <!-- Collapsible Optional Fields Panel -->
+        <div class="border border-outline-variant/50 rounded-xl overflow-hidden bg-surface-bright">
+            <button type="button" id="btn-toggle-optional" class="w-full flex items-center justify-between px-md py-4 hover:bg-surface-container-low transition-all">
+                <div class="flex items-center gap-sm">
+                    <span class="material-symbols-outlined text-secondary">add_circle</span>
+                    <span class="font-semibold text-sm text-on-surface">Optional Fields (PO Details, E-Way Bill, Transport)</span>
+                </div>
+                <span id="optional-arrow" class="material-symbols-outlined transition-transform duration-300">expand_more</span>
+            </button>
+            <div id="optional-fields-container" class="hidden border-t border-outline-variant/30 p-md space-y-md">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+                    <div class="flex flex-col gap-sm">
+                        <label class="font-label-md text-label-md text-on-surface-variant">Customer PO number (Optional)</label>
+                        <input class="h-[52px] px-md rounded-lg border border-outline-variant bg-surface-bright focus:border-secondary focus:ring-2 focus:ring-secondary-container/20 outline-none transition-all text-sm w-full" id="po-num" placeholder="PO-98765" type="text"/>
+                    </div>
+                    <div class="flex flex-col gap-sm">
+                        <label class="font-label-md text-label-md text-on-surface-variant">Customer PO date (Optional)</label>
+                        <input class="h-[52px] px-md rounded-lg border border-outline-variant bg-surface-bright focus:border-secondary focus:ring-2 focus:ring-secondary-container/20 outline-none transition-all text-sm w-full" id="po-date" type="date"/>
+                    </div>
+                    <div class="flex flex-col gap-sm">
+                        <label class="font-label-md text-label-md text-on-surface-variant">E-way bill number (Optional)</label>
+                        <input class="h-[52px] px-md rounded-lg border border-outline-variant bg-surface-bright focus:border-secondary focus:ring-2 focus:ring-secondary-container/20 outline-none transition-all text-sm w-full font-numeric-data" id="eway-bill" placeholder="12-digit number" type="text"/>
+                    </div>
+                    <div class="flex flex-col gap-sm">
+                        <label class="font-label-md text-label-md text-on-surface-variant">Vehicle number (Optional)</label>
+                        <input class="h-[52px] px-md rounded-lg border border-outline-variant bg-surface-bright focus:border-secondary focus:ring-2 focus:ring-secondary-container/20 outline-none transition-all text-sm w-full" id="vehicle-no" placeholder="e.g. MH-12-AB-1234" type="text"/>
+                    </div>
+                    <div class="flex flex-col gap-sm md:col-span-2">
+                        <label class="font-label-md text-label-md text-on-surface-variant">Mode of transport (Optional)</label>
+                        <div class="relative">
+                            <select id="transport-mode" class="w-full h-[52px] px-md rounded-lg border border-outline-variant bg-surface-bright focus:border-secondary focus:ring-2 focus:ring-secondary-container/20 outline-none transition-all appearance-none cursor-pointer text-sm">
+                                <option value="Road">Road</option>
+                                <option value="Air">Air</option>
+                                <option value="Rail">Rail</option>
+                                <option value="Ship">Ship</option>
+                            </select>
+                            <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-outline">expand_more</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- Footer Actions -->
+    <div class="mt-xl flex justify-end items-center gap-md">
+        <button onclick="window.location.href='index.html'" class="px-xl py-[14px] font-semibold text-secondary hover:bg-surface-container-low rounded-lg transition-colors">Cancel</button>
+        <button form="invoice-details-form" type="submit" class="px-xl py-[14px] bg-secondary text-white font-semibold rounded-lg hover:shadow-lg active:scale-95 transition-all flex items-center gap-sm">
+            Next Step
+            <span class="material-symbols-outlined">arrow_forward</span>
+        </button>
+    </div>
+</main>
+
+<!-- Numbering Settings Modal Popup -->
+<div id="numbering-settings-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-[100] p-4 hidden">
+    <div class="bg-white border border-outline-variant/30 rounded-2xl w-full max-w-md shadow-2xl max-h-[85vh] overflow-y-auto flex flex-col">
+        <div class="px-md py-4 bg-surface-container border-b border-outline-variant/30 flex justify-between items-center">
+            <h3 class="font-bold text-on-surface text-base flex items-center gap-sm">
+                <span class="material-symbols-outlined text-secondary">settings</span>
+                Numbering Settings
+            </h3>
+            <button type="button" id="btn-close-settings-modal" class="material-symbols-outlined text-outline hover:text-primary transition-colors">close</button>
+        </div>
+        <form id="numbering-settings-form" class="p-md space-y-md">
+            <!-- Starting Number -->
+            <div class="flex flex-col gap-xs">
+                <label class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider font-medium">Starting no. *</label>
+                <input id="popup-start-no" type="number" required min="1" class="h-10 px-sm border border-outline-variant rounded-lg bg-surface-bright focus:border-secondary outline-none text-sm font-numeric-data w-full" value="1"/>
+            </div>
+            <!-- Width of Numerical Part -->
+            <div class="flex flex-col gap-xs">
+                <label class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider font-medium">Width of numerical part *</label>
+                <input id="popup-num-width" type="number" required min="1" class="h-10 px-sm border border-outline-variant rounded-lg bg-surface-bright focus:border-secondary outline-none text-sm font-numeric-data w-full" value="4"/>
+            </div>
+            <!-- Prefill with Zero -->
+            <div class="flex items-center justify-between p-sm bg-surface rounded-lg border border-outline-variant/20">
+                <label class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider cursor-pointer select-none font-medium" for="popup-prefill-zero">Prefill with zero</label>
+                <label class="inline-flex items-center cursor-pointer">
+                    <input id="popup-prefill-zero" checked type="checkbox" class="sr-only peer"/>
+                    <div class="relative w-9 h-5 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-secondary"></div>
+                </label>
+            </div>
+            <!-- Prefix -->
+            <div class="flex flex-col gap-xs">
+                <label class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider font-medium">Prefix</label>
+                <input id="popup-prefix" type="text" class="h-10 px-sm border border-outline-variant rounded-lg bg-surface-bright focus:border-secondary outline-none text-sm w-full" placeholder="e.g. INV-"/>
+            </div>
+            <!-- Suffix -->
+            <div class="flex flex-col gap-xs">
+                <label class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider font-medium">Suffix</label>
+                <input id="popup-suffix" type="text" class="h-10 px-sm border border-outline-variant rounded-lg bg-surface-bright focus:border-secondary outline-none text-sm w-full" placeholder="e.g. FY26"/>
+            </div>
+            <!-- Starting Date & Reset Date -->
+            <div class="grid grid-cols-2 gap-sm">
+                <div class="flex flex-col gap-xs">
+                    <label class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider font-medium">Starting date *</label>
+                    <input id="popup-start-date" type="date" required class="h-10 px-sm border border-outline-variant rounded-lg bg-surface-bright focus:border-secondary outline-none text-xs w-full"/>
+                </div>
+                <div class="flex flex-col gap-xs">
+                    <label class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider font-medium">Reset date</label>
+                    <input id="popup-reset-date" type="date" class="h-10 px-sm border border-outline-variant rounded-lg bg-surface-bright focus:border-secondary outline-none text-xs w-full"/>
+                </div>
+            </div>
+            <p id="date-error" class="text-[10px] text-error hidden">Reset Date cannot be earlier than Starting Date.</p>
+
+            <div class="flex justify-end pt-sm gap-2 border-t border-outline-variant/20">
+                <button id="btn-cancel-settings-modal" type="button" class="px-md py-2 border border-outline-variant/30 rounded-lg text-xs font-semibold text-on-surface-variant hover:bg-surface-container-low transition-colors">Cancel</button>
+                <button type="submit" class="px-md py-2 bg-secondary text-white rounded-lg text-xs font-semibold hover:shadow-md transition-colors">Apply</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Bottom Navigation Bar (Mobile) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 flex justify-around items-center px-md pb-safe h-20 bg-surface-container-lowest shadow-[0px_-4px_12px_rgba(15,23,42,0.05)] rounded-t-xl">
+    <a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1" href="index.html">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span class="font-label-md text-label-md">Dashboard</span>
+    </a>
+    <a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-5 py-1" href="create-invoice-step1.html">
+        <span class="material-symbols-outlined">description</span>
+        <span class="font-label-md text-label-md">Invoices</span>
+    </a>
+    <a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1" href="#">
+        <span class="material-symbols-outlined">settings</span>
+        <span class="font-label-md text-label-md">Settings</span>
+    </a>
+</nav>
+
+<!-- Floating Atmosphere Elements -->
+<div class="fixed top-0 left-0 w-full h-full pointer-events-none -z-10 overflow-hidden">
+    <div class="absolute -top-24 -right-24 w-96 h-96 bg-secondary-container opacity-20 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-surface-container-high opacity-40 rounded-full blur-3xl"></div>
+</div>
+
+<script>
+    // Collapsible Optional Fields Logic
+    const btnToggleOptional = document.getElementById('btn-toggle-optional');
+    const optionalContainer = document.getElementById('optional-fields-container');
+    const optionalArrow = document.getElementById('optional-arrow');
+
+    btnToggleOptional.addEventListener('click', () => {
+        const isHidden = optionalContainer.classList.contains('hidden');
+        if (isHidden) {
+            optionalContainer.classList.remove('hidden');
+            optionalArrow.style.transform = 'rotate(180deg)';
+        } else {
+            optionalContainer.classList.add('hidden');
+            optionalArrow.style.transform = 'rotate(0deg)';
+        }
+    });
+
+    // Numbering Settings Modal Popup Logic
+    const btnOpenSettings = document.getElementById('btn-numbering-settings');
+    const btnCloseSettingsX = document.getElementById('btn-close-settings-modal');
+    const btnCloseSettingsCancel = document.getElementById('btn-cancel-settings-modal');
+    const modalSettings = document.getElementById('numbering-settings-modal');
+    const formSettings = document.getElementById('numbering-settings-form');
+    
+    // Popup inputs
+    const popupStartNo = document.getElementById('popup-start-no');
+    const popupNumWidth = document.getElementById('popup-num-width');
+    const popupPrefillZero = document.getElementById('popup-prefill-zero');
+    const popupPrefix = document.getElementById('popup-prefix');
+    const popupSuffix = document.getElementById('popup-suffix');
+    const popupStartDate = document.getElementById('popup-start-date');
+    const popupResetDate = document.getElementById('popup-reset-date');
+
+    // Error messages
+    const prefixError = document.getElementById('prefix-error');
+    const suffixError = document.getElementById('suffix-error');
+    const dateError = document.getElementById('date-error');
+
+    // Main Invoice number box
+    const invoiceInput = document.getElementById('invoice-num');
+
+    // Helper to format invoice number
+    function getFormattedInvoiceNo(prefix, startNo, width, prefill, suffix) {
+        let numStr = String(startNo);
+        if (prefill) {
+            numStr = numStr.padStart(width, '0');
+        }
+        return `${prefix}${numStr}${suffix}`;
+    }
+
+    btnOpenSettings.addEventListener('click', () => {
+        modalSettings.classList.remove('hidden');
+    });
+
+    const closeModal = () => {
+        modalSettings.classList.add('hidden');
+        // Clear validation errors on close
+        prefixError.classList.add('hidden');
+        suffixError.classList.add('hidden');
+        dateError.classList.add('hidden');
+    };
+
+    btnCloseSettingsX.addEventListener('click', closeModal);
+    btnCloseSettingsCancel.addEventListener('click', closeModal);
+    modalSettings.addEventListener('click', (e) => {
+        if (e.target === modalSettings) closeModal();
+    });
+
+    formSettings.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        // 1. Validation (Date validation only)
+        let isValid = true;
+
+        const prefixVal = popupPrefix.value;
+        const suffixVal = popupSuffix.value;
+
+        const startDateVal = popupStartDate.value;
+        const resetDateVal = popupResetDate.value;
+
+        if (resetDateVal && startDateVal && new Date(resetDateVal) < new Date(startDateVal)) {
+            dateError.classList.remove('hidden');
+            isValid = false;
+        } else {
+            dateError.classList.add('hidden');
+        }
+
+        if (!isValid) return;
+
+        // Apply formatting changes to main Invoice Number field
+        const startNo = parseInt(popupStartNo.value) || 1;
+        const width = parseInt(popupNumWidth.value) || 1;
+        const prefill = popupPrefillZero.checked;
+
+        invoiceInput.value = getFormattedInvoiceNo(prefixVal, startNo, width, prefill, suffixVal);
+
+        closeModal();
+    });
+
+    // Initialize state on load
+    document.addEventListener('DOMContentLoaded', () => {
+        // Set default start date to today
+        const todayStr = new Date().toISOString().split('T')[0];
+        popupStartDate.value = todayStr;
+        document.getElementById('invoice-date').value = todayStr;
+
+        // Load existing draft from localStorage
+        const draft = JSON.parse(localStorage.getItem('invoice_draft_step1') || '{}');
+        
+        if (draft.id) {
+            invoiceInput.value = draft.id;
+            if (draft.date) document.getElementById('invoice-date').value = draft.date;
+            if (draft.poNumber) document.getElementById('po-num').value = draft.poNumber;
+            if (draft.poDate) document.getElementById('po-date').value = draft.poDate;
+            if (draft.ewayBillNumber) document.getElementById('eway-bill').value = draft.ewayBillNumber;
+            if (draft.vehicleNumber) document.getElementById('vehicle-no').value = draft.vehicleNumber;
+            if (draft.transportationMode) document.getElementById('transport-mode').value = draft.transportationMode;
+            
+            // Popups
+            if (draft.startNo) popupStartNo.value = draft.startNo;
+            if (draft.numWidth) popupNumWidth.value = draft.numWidth;
+            if (draft.prefillZero !== undefined) popupPrefillZero.checked = draft.prefillZero;
+            if (draft.prefix !== undefined) popupPrefix.value = draft.prefix;
+            if (draft.suffix !== undefined) popupSuffix.value = draft.suffix;
+            if (draft.startDate) popupStartDate.value = draft.startDate;
+            if (draft.resetDate) popupResetDate.value = draft.resetDate;
+        } else {
+            // Apply initial default format
+            invoiceInput.value = getFormattedInvoiceNo('INV', 1, 4, true, '');
+        }
+    });
+
+    document.getElementById('invoice-details-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const step1Data = {
+            id: invoiceInput.value.trim(),
+            date: document.getElementById('invoice-date').value,
+            poNumber: document.getElementById('po-num').value.trim(),
+            poDate: document.getElementById('po-date').value,
+            ewayBillNumber: document.getElementById('eway-bill').value.trim(),
+            vehicleNumber: document.getElementById('vehicle-no').value.trim(),
+            transportationMode: document.getElementById('transport-mode').value,
+            
+            // Numbering Settings State
+            startNo: popupStartNo.value,
+            numWidth: popupNumWidth.value,
+            prefillZero: popupPrefillZero.checked,
+            prefix: popupPrefix.value.trim(),
+            suffix: popupSuffix.value.trim(),
+            startDate: popupStartDate.value,
+            resetDate: popupResetDate.value
+        };
+
+        // Save step 1 to localStorage
+        localStorage.setItem('invoice_draft_step1', JSON.stringify(step1Data));
+        window.location.href = 'create-invoice-step2.html';
+    });
+</script>
+</body>
+</html>
